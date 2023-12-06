@@ -1,0 +1,17 @@
+name: Send a Discord message when new RSS feeds update
+on:
+  rss:
+    url: ${{ secrets.DCINSIDE_RSSFEED_GALLERY_SEARCH }}
+jobs:
+  discord:
+    name: Send a message to discord
+    runs-on: ubuntu-latest
+    steps:
+      - name: Discord notification
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_GALLERY_SEARCH }}
+          DISCORD_USERNAME: ${{ secrets.DISCORD_USERNAME_SEARCH }}
+          DISCORD_AVATAR: ${{ secrets.DISCORD_AVATAR_SEARCH }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: "`디시인사이드 - 검색 - 편두통`'\n'**${{on.rss.outputs.title}}**'\n'${{on.rss.outputs.link}}"
