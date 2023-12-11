@@ -1,7 +1,7 @@
 name: Send a Discord message when new RSS feeds update
 on:
   rss:
-    url: ${{ secrets.DCINSIDE_RSSFEED_GALLERY_SEARCH-ACCURACY }}
+    url: ${{ secrets.DCINSIDE_RSSFEED_GALLERY_SEARCH_ACCURACY }}
 jobs:
   discord:
     name: Send a message to discord
@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Discord notification
         env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_GALLERY_SEARCH-ACCURACY }}
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_GALLERY_SEARCH_ACCURACY }}
           DISCORD_USERNAME: ${{ secrets.DISCORD_USERNAME_SEARCH }}
           DISCORD_AVATAR: ${{ secrets.DISCORD_AVATAR_SEARCH }}
         uses: Ilshidur/action-discord@master
