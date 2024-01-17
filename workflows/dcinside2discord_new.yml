@@ -14,4 +14,4 @@ jobs:
           DISCORD_AVATAR: ${{ secrets.DISCORD_AVATAR_NEW }}
         uses: Ilshidur/action-discord@master
         with:
-          args: "'`'디시인사이드 - 편두통 갤러리 - 최신'`''\n'**${{on.rss.outputs.title}}**'\n'${{on.rss.outputs.link}}"
+          args: "`디시인사이드 - 편두통 갤러리 - 최신`'\n'**${{on.rss.outputs.title}}**'\n'${{on.rss.outputs.link}}"
