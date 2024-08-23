@@ -1,7 +1,7 @@
 name: Actionsflow
 on:
   schedule:
-     - cron: "*/30 * * * *"
+    - cron: "*/15 * * * *"
   push:
     branches:
       - main
@@ -26,7 +26,11 @@ jobs:
     name: Run
     concurrency: actionsflow
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
       - name: Run Actionsflow
         uses: actionsflow/actionsflow-action@v1
         with:
