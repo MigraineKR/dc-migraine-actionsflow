@@ -27,17 +27,29 @@ jobs:
     concurrency: actionsflow
     steps:
       - uses: actions/checkout@v4
+      
+      # 최신 Node.js 버전 설치
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+
+      # Actionsflow를 직접 설치 및 실행
+      - name: Install Actionsflow
+        run: npm install -g @actionsflow/cli
+
       - name: Run Actionsflow
-        uses: actionsflow/actionsflow-action@v1
-        with:
-          args: "build --include ${{ github.event.inputs.include || ''}} -f ${{github.event.inputs.force=='true' && 'true' || 'false'}} --verbose ${{github.event.inputs.verbose=='true' && 'true' || 'false'}}"
-          json-secrets: ${{ toJSON(secrets) }}
-          json-github: ${{ toJSON(github) }}
-      - name: Setup act
-        uses: actionsflow/setup-act-for-actionsflow@v1
-      - name: Run act
+        run: actionsflow build --include ${{ github.event.inputs.include || ''}} -f ${{github.event.inputs.force == 'true' && 'true' || 'false'}} --verbose ${{github.event.inputs.verbose == 'true' && 'true' || 'false'}}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # 필요에 따라 추가 환경 변수를 여기에 설정
+
+      # Act를 직접 설치 및 실행
+      - name: Install and Setup Act
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libssl-dev
+          curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash
+
+      - name: Run Act
         run: act --workflows ./dist/workflows --secret-file ./dist/.secrets --eventpath ./dist/event.json --env-file ./dist/.env -P ubuntu-latest=actionsflow/act-environment:v1 -P ubuntu-18.04=actionsflow/act-environment:v1
